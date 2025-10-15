@@ -1,0 +1,17 @@
+CREATE TABLE OrderItems
+(
+    OrderItemId UNIQUEIDENTIFIER NOT NULL CONSTRAINT PK_OrderItems PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
+    OrderId UNIQUEIDENTIFIER NOT NULL,
+    ProductId UNIQUEIDENTIFIER NOT NULL,              
+    ProductSku NVARCHAR(100) NULL,                    
+    ProductName NVARCHAR(400) NOT NULL,               
+    Quantity INT NOT NULL DEFAULT 1,
+    UnitPrice DECIMAL(18,2) NOT NULL,                 
+    Subtotal AS (Quantity * UnitPrice) PERSISTED,
+    Currency NVARCHAR(3) NOT NULL DEFAULT 'INR',
+    CreatedAt DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    UpdatedAt DATETIMEOFFSET NULL,
+    CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (OrderId) 
+        REFERENCES Orders(OrderId) ON DELETE CASCADE
+);
+GO

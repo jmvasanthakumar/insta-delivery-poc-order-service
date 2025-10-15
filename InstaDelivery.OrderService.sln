@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Domain", "InstaDelivery.OrderService.Domain\InstaDelivery.OrderService.Domain.csproj", "{B16279FE-8C95-0C74-9130-1A8B0EF01491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Repository", "InstaDelivery.OrderService.Repository\InstaDelivery.OrderService.Repository.csproj", "{0FC88F48-848B-9586-D59F-0A6344ED9389}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Application", "InstaDelivery.OrderService.Application\InstaDelivery.OrderService.Application.csproj", "{2CF710A8-FAA7-809E-059F-49F49ACA3198}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Api", "InstaDelivery.OrderService.Api\InstaDelivery.OrderService.Api.csproj", "{A189F829-5E27-E63E-944F-44E889A87BEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Messaging.Domain", "InstaDelivery.OrderService.Messaging.Domain\InstaDelivery.OrderService.Messaging.Domain.csproj", "{02406A52-2920-4317-9CE4-F33C46A76695}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InstaDelivery.OrderService.Messaging", "InstaDelivery.OrderService.Messaging", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaDelivery.OrderService.Messaging", "InstaDelivery.OrderService.Messaging\InstaDelivery.OrderService.Messaging.csproj", "{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B16279FE-8C95-0C74-9130-1A8B0EF01491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16279FE-8C95-0C74-9130-1A8B0EF01491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16279FE-8C95-0C74-9130-1A8B0EF01491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16279FE-8C95-0C74-9130-1A8B0EF01491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FC88F48-848B-9586-D59F-0A6344ED9389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FC88F48-848B-9586-D59F-0A6344ED9389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FC88F48-848B-9586-D59F-0A6344ED9389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC88F48-848B-9586-D59F-0A6344ED9389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF710A8-FAA7-809E-059F-49F49ACA3198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF710A8-FAA7-809E-059F-49F49ACA3198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF710A8-FAA7-809E-059F-49F49ACA3198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF710A8-FAA7-809E-059F-49F49ACA3198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A189F829-5E27-E63E-944F-44E889A87BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A189F829-5E27-E63E-944F-44E889A87BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A189F829-5E27-E63E-944F-44E889A87BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A189F829-5E27-E63E-944F-44E889A87BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02406A52-2920-4317-9CE4-F33C46A76695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02406A52-2920-4317-9CE4-F33C46A76695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02406A52-2920-4317-9CE4-F33C46A76695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02406A52-2920-4317-9CE4-F33C46A76695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02406A52-2920-4317-9CE4-F33C46A76695} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2752BC44-8AB3-4C56-B894-A4C47EF1D5E1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10809E51-FD18-440B-9919-DCC6F894B959}
+	EndGlobalSection
+EndGlobal

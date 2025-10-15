@@ -1,0 +1,21 @@
+CREATE TABLE Orders
+(
+    OrderId UNIQUEIDENTIFIER NOT NULL CONSTRAINT PK_Orders PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
+    CustomerId UNIQUEIDENTIFIER NOT NULL,
+    OrderNumber NVARCHAR(50) NOT NULL UNIQUE,
+    OrderDate DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    Status NVARCHAR(40) NOT NULL,                     
+    TotalAmount DECIMAL(18,2) NOT NULL DEFAULT 0.00,
+    Currency NVARCHAR(3) NOT NULL DEFAULT 'INR',
+    PaymentId UNIQUEIDENTIFIER NULL,                  
+    DeliveryAddress NVARCHAR(MAX) NULL,                       
+    Notes NVARCHAR(1000) NULL,
+    IsDeleted BIT NOT NULL DEFAULT 0,                
+    CreatedBy NVARCHAR(100) NULL,
+    CreatedAt DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    UpdatedBy NVARCHAR(100) NULL,
+    UpdatedAt DATETIMEOFFSET NULL,
+    --CONSTRAINT FK_Orders_Payments FOREIGN KEY (PaymentId) 
+      --  REFERENCES ordersvc.Payments(PaymentId)  
+);
+GO

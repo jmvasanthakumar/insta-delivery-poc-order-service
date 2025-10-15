@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/InstaDelivery.OrderService.Api/.vs
+/InstaDelivery.OrderService.Api/bin
+/InstaDelivery.OrderService.Api/obj
+/InstaDelivery.OrderService.Application/bin
+/InstaDelivery.OrderService.Application/obj
+/InstaDelivery.OrderService.Domain/bin
+/InstaDelivery.OrderService.Domain/obj
+/InstaDelivery.OrderService.Messaging/bin
+/InstaDelivery.OrderService.Messaging/obj
+/InstaDelivery.OrderService.Messaging.Domain/bin
+/InstaDelivery.OrderService.Messaging.Domain/obj
+/InstaDelivery.OrderService.Repository/bin
+/InstaDelivery.OrderService.Repository/obj
+/InstaDelivery.OrderService.Api/appsettings.development.json
