@@ -2,6 +2,7 @@
 using InstaDelivery.OrderService.Application.Dto;
 using InstaDelivery.OrderService.Application.Services.Contracts;
 using InstaDelivery.OrderService.Domain.Entities;
+using InstaDelivery.OrderService.Domain.Exceptions;
 using InstaDelivery.OrderService.Repository.Contracts;
 
 namespace InstaDelivery.OrderService.Application.Services;
@@ -34,15 +35,21 @@ internal class OrderService(IUnitOfWork unitOfWork, IMapper mapper) : IOrderServ
         return mapper.Map<IList<OrderDto>>(orders);
     }
 
-    public async Task<OrderDto?> GetOrderByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken ct = default)
     {
-        var order = await unitOfWork.Orders.GetByIdAsync(id, ct);
-        return order is null ? null : mapper.Map<OrderDto>(order);
+        var order = await unitOfWork.Orders.GetByIdAsync(id, ct) ?? throw new OrderNotFoundException(id);
+        return mapper.Map<OrderDto>(order);
+    }
+
+    public async Task<IList<OrderDto>> GetAvailableOrdersAsync(CancellationToken ct = default)
+    {
+        var availableOrders = await unitOfWork.Orders.FindAsync(x => x.Status == OrderStatus.Pending, ct);
+        return mapper.Map<IList<OrderDto>>(availableOrders);
     }
 
     public async Task<OrderDto> UpdateOrderStatusAsync(Guid orderId, OrderStatus orderStatus, DateTimeOffset updatedAt, CancellationToken ct = default)
     {
-        var order = await unitOfWork.Orders.GetByIdAsync(orderId, ct) ?? throw new ArgumentException("Order not found");
+        var order = await unitOfWork.Orders.GetByIdAsync(orderId, ct) ?? throw new OrderNotFoundException(orderId);
 
         order.Status = orderStatus;
         order.UpdatedAt = updatedAt;
@@ -50,5 +57,13 @@ internal class OrderService(IUnitOfWork unitOfWork, IMapper mapper) : IOrderServ
         await unitOfWork.SaveChangesAsync(ct);
 
         return mapper.Map<OrderDto>(order);
+    }
+
+    public async Task DeleteOrderAsync(Guid id, CancellationToken ct = default)
+    {
+        var order = await unitOfWork.Orders.GetByIdAsync(id, ct) ?? throw new OrderNotFoundException(id);
+
+        unitOfWork.Orders.Remove(order);
+        await unitOfWork.SaveChangesAsync(ct);
     }
 }
