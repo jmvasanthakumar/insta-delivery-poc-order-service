@@ -1,3 +1,4 @@
+using InstaDelivery.OrderService.Api.Configuration;
 using InstaDelivery.OrderService.Api.Constants;
 using InstaDelivery.OrderService.Application;
 using InstaDelivery.OrderService.Application.MapperProfiles;
@@ -27,20 +28,23 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
 
+        //builder.Services.Configure<SwaggerConfiguration>(
+        //builder.Configuration.GetSection("SwaggerClient")); //IOptions
+
+        var swaggerConfig = builder.Configuration.GetSection("SwaggerClient").Get<SwaggerConfiguration>()
+            ?? throw new InvalidOperationException("Swagger configuration is missing or invalid.");
+
         builder.Services.AddSwaggerGen(c =>
         {
-            c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                Description = "JWT Bearer token obtained from Azure AD"
-            });
+            //c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+            //{
+            //    Type = SecuritySchemeType.Http,
+            //    Scheme = "bearer",
+            //    BearerFormat = "JWT",
+            //    Description = "JWT Bearer token obtained from Azure AD"
+            //});
 
             var tenant = builder.Configuration["AzureAd:TenantId"];
-            var authorizeUrl = $"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize";
-            var tokenUrl = $"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token";
-            var scopes = builder.Configuration["SwaggerClient:Scopes"];
 
             c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
@@ -49,12 +53,12 @@ internal class Program
                 {
                     AuthorizationCode = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(authorizeUrl),
-                        TokenUrl = new Uri(tokenUrl),
+                        AuthorizationUrl = new Uri(string.Format(swaggerConfig.AuthorizeUrl, tenant)),
+                        TokenUrl = new Uri(string.Format(swaggerConfig.TokenUrl, tenant)),
                         Scopes = new Dictionary<string, string>
                         {
                             {
-                                scopes, "Access API as the signed-in user" 
+                                $"{swaggerConfig.Scopes}", "Access API as the signed-in user"
                             }
                         }
                     }
@@ -73,17 +77,11 @@ internal class Program
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy(AuthPolicy.BasicAccess, policy =>
-                  policy.RequireRole("User", "Admin"));
-
-            options.AddPolicy(AuthPolicy.ElevatedAccess, policy =>
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy(AuthPolicy.BasicAccess, policy =>
+                  policy.RequireRole("User", "Admin"))
+            .AddPolicy(AuthPolicy.ElevatedAccess, policy =>
                   policy.RequireRole("Admin"));
-        });
-
-
-
 
         var app = builder.Build();
 
@@ -95,7 +93,7 @@ internal class Program
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
                 c.OAuthClientId(builder.Configuration["SwaggerClient:ClientId"]);
-                c.OAuthUsePkce(); 
+                c.OAuthUsePkce();
             });
         }
 
@@ -104,8 +102,6 @@ internal class Program
         app.UseAuthentication();
 
         app.UseAuthorization();
-
-
 
         app.MapControllers();
 
