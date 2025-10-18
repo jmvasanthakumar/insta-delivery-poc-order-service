@@ -75,7 +75,9 @@ internal class Program
         });
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+            .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+            .EnableTokenAcquisitionToCallDownstreamApi()
+            .AddInMemoryTokenCaches();
 
         builder.Services.AddAuthorizationBuilder()
             .AddPolicy(AuthPolicy.BasicAccess, policy =>
@@ -92,7 +94,7 @@ internal class Program
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-                c.OAuthClientId(builder.Configuration["SwaggerClient:ClientId"]);
+                c.OAuthClientId(swaggerConfig.ClientId);
                 c.OAuthUsePkce();
             });
         }
