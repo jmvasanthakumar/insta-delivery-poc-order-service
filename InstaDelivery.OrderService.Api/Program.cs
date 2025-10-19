@@ -1,5 +1,6 @@
 using InstaDelivery.OrderService.Api.Configuration;
 using InstaDelivery.OrderService.Api.Constants;
+using InstaDelivery.OrderService.Api.HealthChecks;
 using InstaDelivery.OrderService.Application;
 using InstaDelivery.OrderService.Application.MapperProfiles;
 using InstaDelivery.OrderService.Messaging;
@@ -13,6 +14,11 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddApplicationInsightsTelemetry(options =>
+        {
+            options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+        });
 
         // Add services to the container.
         builder.Services.ConfigureRepositories(builder.Configuration);
@@ -85,6 +91,8 @@ internal class Program
             .AddPolicy(AuthPolicy.ElevatedAccess, policy =>
                   policy.RequireRole("Admin"));
 
+        builder.Services.ConfigureHealthCheck();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -106,6 +114,8 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.AddHealthChecks();
 
         app.Run();
     }
