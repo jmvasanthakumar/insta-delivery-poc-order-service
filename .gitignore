@@ -17,3 +17,5 @@
 /InstaDelivery.OrderService.Repository/bin
 /InstaDelivery.OrderService.Repository/obj
 /InstaDelivery.OrderService.Api/appsettings.development.json
+/InstaDelivery.Common/bin
+/InstaDelivery.Common/obj
