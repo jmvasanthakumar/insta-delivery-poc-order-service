@@ -4,6 +4,7 @@ using InstaDelivery.OrderService.Application.Services.Contracts;
 using InstaDelivery.OrderService.Domain.Entities;
 using InstaDelivery.OrderService.Domain.Exceptions;
 using InstaDelivery.OrderService.Repository.Contracts;
+using InstaDelivery.Common.Context;
 
 namespace InstaDelivery.OrderService.Application.Services;
 
@@ -14,8 +15,9 @@ internal class OrderService(IUnitOfWork unitOfWork, IMapper mapper) : IOrderServ
         var order = mapper.Map<Order>(orderDto);
         order.CreatedAt = DateTimeOffset.Now;
         order.UpdatedAt = DateTimeOffset.Now;
-        order.CreatedBy = "SYSTEM"; //TODO - Read From Token Claims
-        order.UpdatedBy = "SYSTEM"; //TODO - Read From Token Claims
+        order.CreatedBy = RequestContext.Current.UserEmail;
+        order.UpdatedBy = RequestContext.Current.UserEmail;
+        
         order.Status = OrderStatus.Pending;
         order.TotalAmount = order.Items.Sum(item => item.Subtotal);
 

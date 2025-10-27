@@ -1,3 +1,4 @@
+using InstaDelivery.Common.Middlewares;
 using InstaDelivery.OrderService.Api.Configuration;
 using InstaDelivery.OrderService.Api.Constants;
 using InstaDelivery.OrderService.Api.HealthChecks;
@@ -40,6 +41,12 @@ internal class Program
         var swaggerConfig = builder.Configuration.GetSection("SwaggerClient").Get<SwaggerConfiguration>()
             ?? throw new InvalidOperationException("Swagger configuration is missing or invalid.");
 
+
+        var apiScope = $"{swaggerConfig.Scopes}";
+        const string openid = "openid";
+        const string profile = "profile";
+        const string email = "email";
+
         builder.Services.AddSwaggerGen(c =>
         {
             //c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
@@ -64,7 +71,16 @@ internal class Program
                         Scopes = new Dictionary<string, string>
                         {
                             {
-                                $"{swaggerConfig.Scopes}", "Access API as the signed-in user"
+                                apiScope, "Access API as the signed-in user"
+                            },
+                            {
+                                openid, "Access API as the signed-in user"
+                            },
+                            {
+                                profile, "Profile Details"
+                            },
+                            {
+                                email, "Email"
                             }
                         }
                     }
@@ -75,7 +91,7 @@ internal class Program
             {
                 {
                     new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" } },
-                    new[] { builder.Configuration["SwaggerClient:Scopes"] }
+                    new[] { apiScope, openid, profile, email }
                 }
             });
         });
@@ -112,6 +128,8 @@ internal class Program
         app.UseAuthentication();
 
         app.UseAuthorization();
+
+        app.UseMiddleware<RequestContextMiddleware>();
 
         app.MapControllers();
 

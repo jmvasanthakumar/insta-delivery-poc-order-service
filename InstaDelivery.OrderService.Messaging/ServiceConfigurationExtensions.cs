@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
 using InstaDelivery.OrderService.Messaging.Domain;
 using InstaDelivery.OrderService.Messaging.Handlers;
+using InstaDelivery.OrderService.Messaging.Handlers.Contracts;
 using InstaDelivery.OrderService.Messaging.Workers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

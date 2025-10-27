@@ -12,14 +12,13 @@ public class DbHealthCheck(IConfiguration configuration) : IHealthCheck
         HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         var stopwatch = Stopwatch.StartNew();
-        var connStr = _connectionString; // from DI
+        var connStr = _connectionString;
 
         try
         {
             await using var connection = new SqlConnection(connStr);
             await connection.OpenAsync(cancellationToken);
 
-            // Use command inside its own using
             await using var cmd = new SqlCommand("SELECT 1", connection);
             var _ = await cmd.ExecuteScalarAsync(cancellationToken);
 
@@ -28,7 +27,7 @@ public class DbHealthCheck(IConfiguration configuration) : IHealthCheck
             if (stopwatch.ElapsedMilliseconds > 2000)
                 return HealthCheckResult.Degraded($"DB slow: {stopwatch.ElapsedMilliseconds} ms");
 
-            return HealthCheckResult.Healthy($"DB OK in {stopwatch.ElapsedMilliseconds} ms");
+            return HealthCheckResult.Healthy($"DB OK: {stopwatch.ElapsedMilliseconds} ms");
         }
         catch (Exception ex)
         {

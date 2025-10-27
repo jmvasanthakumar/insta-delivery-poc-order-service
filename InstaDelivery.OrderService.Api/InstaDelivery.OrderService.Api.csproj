@@ -13,6 +13,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <!--<PackageReference Include="InstaDelivery.Common" Version="1.0.0" />-->
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.21" />
     <PackageReference Include="Microsoft.Identity.Web" Version="4.0.0" />
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InstaDelivery.Common\InstaDelivery.Common.csproj" />
     <ProjectReference Include="..\InstaDelivery.OrderService.Messaging\InstaDelivery.OrderService.Messaging.csproj" />
     <ProjectReference Include="..\InstaDelivery.OrderService.Repository\InstaDelivery.OrderService.Repository.csproj" />
     <ProjectReference Include="..\InstaDelivery.OrderService.Application\InstaDelivery.OrderService.Application.csproj" />

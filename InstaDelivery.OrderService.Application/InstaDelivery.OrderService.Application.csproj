@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="InstaDelivery.Common" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\InstaDelivery.OrderService.Repository\InstaDelivery.OrderService.Repository.csproj" />
   </ItemGroup>
 

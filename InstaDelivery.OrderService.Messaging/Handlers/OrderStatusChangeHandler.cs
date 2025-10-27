@@ -1,6 +1,7 @@
 ﻿using InstaDelivery.OrderService.Application.Services.Contracts;
 using InstaDelivery.OrderService.Domain.Entities;
 using InstaDelivery.OrderService.Messaging.Domain;
+using InstaDelivery.OrderService.Messaging.Handlers.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

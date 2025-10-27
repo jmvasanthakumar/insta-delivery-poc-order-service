@@ -1,4 +1,5 @@
-﻿using InstaDelivery.OrderService.Api.Constants;
+﻿using InstaDelivery.Common.Context;
+using InstaDelivery.OrderService.Api.Constants;
 using InstaDelivery.OrderService.Application.Dto;
 using InstaDelivery.OrderService.Application.Services.Contracts;
 using InstaDelivery.OrderService.Domain.Exceptions;
@@ -10,7 +11,7 @@ namespace InstaDelivery.OrderService.Api.Controllers;
 [Route("api/orders")]
 [ApiController]
 [Authorize(Policy = AuthPolicy.BasicAccess)]
-public class OrderController(IOrderService orderService) : ControllerBase
+public class OrderController(IOrderService orderService, ILogger<OrderController> logger) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto request, CancellationToken token = default)
@@ -22,6 +23,7 @@ public class OrderController(IOrderService orderService) : ControllerBase
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error creating order for user {UserEmail}", RequestContext.Current.UserEmail);
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
@@ -38,6 +40,7 @@ public class OrderController(IOrderService orderService) : ControllerBase
         }
         catch (OrderNotFoundException ex)
         {
+            logger.LogWarning(ex, "Order {OrderId} not found", id);
             return NotFound(ex.Message);
         }
         catch (Exception ex)
@@ -88,7 +91,6 @@ public class OrderController(IOrderService orderService) : ControllerBase
     {
         try
         {
-            var userName = HttpContext.User.Identity?.Name;
             var orders = await orderService.GetAvailableOrdersAsync(token);
             return Ok(orders);
         }

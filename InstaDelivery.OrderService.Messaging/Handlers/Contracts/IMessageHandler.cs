@@ -1,4 +1,4 @@
-﻿namespace InstaDelivery.OrderService.Messaging.Handlers;
+﻿namespace InstaDelivery.OrderService.Messaging.Handlers.Contracts;
 
 internal interface IMessageHandler<T>
 {

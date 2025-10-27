@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InstaDelivery.OrderService.Application.Dto;
+﻿namespace InstaDelivery.OrderService.Application.Dto;
 
 public class OrderDtoBase
 {
