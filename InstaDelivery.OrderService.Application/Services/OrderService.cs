@@ -5,6 +5,7 @@ using InstaDelivery.OrderService.Domain.Entities;
 using InstaDelivery.OrderService.Domain.Exceptions;
 using InstaDelivery.OrderService.Repository.Contracts;
 using InstaDelivery.Common.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace InstaDelivery.OrderService.Application.Services;
 
@@ -39,7 +40,7 @@ internal class OrderService(IUnitOfWork unitOfWork, IMapper mapper) : IOrderServ
 
     public async Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken ct = default)
     {
-        var order = await unitOfWork.Orders.GetByIdAsync(id, ct) ?? throw new OrderNotFoundException(id);
+        var order = await unitOfWork.Orders.Query().Include(x=>x.Items).SingleOrDefaultAsync(x=>x.Id == id, ct) ?? throw new OrderNotFoundException(id);
         return mapper.Map<OrderDto>(order);
     }
 
